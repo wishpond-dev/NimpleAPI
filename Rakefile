@@ -12,10 +12,10 @@ desc "Build Gem"
 		system "gem build nimble_api.gemspec"
 	end
 
-desc "Run default unit specs"
+desc "Run specs"
 RSpec::Core::RakeTask.new('spec') do |t|
   t.rspec_opts = %w{--colour --format progress}
-  t.pattern = 'spec/unit/*_spec.rb', 'spec/unit/*/*_spec.rb'
+  t.pattern = 'spec/*_spec.rb', 'spec/*/*_spec.rb'
 end
 
 desc "Run unit specs"
