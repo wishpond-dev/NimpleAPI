@@ -56,11 +56,14 @@ If you plan to use this with rails, create config/initializers/nimble.rb with th
     # Update one element, or multiple
     fred.update("parent company" => [{ "modifier"=>"","value"=>"Cogswell Cogs"}])
 
-    # Find a contact by their email address
+    # Find a contact by their email address, best way to find a unique user
     fred = @nimble.contact.by_email 'fred@bedrock.org'
 
     # Find a contact by id
     fred = @nimble.contact.fetch "54444842faed29141e5c7300"
+
+    # Find a contact by their first and last name, returns the first match - be careful!
+    fred = @nimble.contact.by_name 'Fred', 'Flintstone'
 
     # Use convenience methods to display the id, email and fields
     > fred.id

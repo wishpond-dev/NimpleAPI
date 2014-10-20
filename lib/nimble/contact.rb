@@ -67,6 +67,15 @@ module NimbleApi
       self
     end
 
+    # Searches contacts for matching name, sets self.contact to first matching result
+    def by_name first_name, last_name
+      query = { "and" => [{ "first name" => { "is"=> first_name } }, { "last name" => { "is"=> last_name } }, { "record type"=> { "is"=> "person" }} ] }
+      resp = @nimble.get 'contacts', { :query => query.to_json }
+      self.contact = resp['resources'].first
+      return nil unless self.contact
+      self
+    end
+
     # Gets contact by id and sets self.contact to result
     def fetch id=nil
       id ||= self.id

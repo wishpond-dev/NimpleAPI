@@ -1,5 +1,4 @@
 require 'spec_helper'
-
 describe NimbleApi::Contact do
 
   before :each do
@@ -56,6 +55,11 @@ describe NimbleApi::Contact do
     it "can find contact by_email" do
       resp = @nimble.contact.by_email 'fred@bedrock.org'
       resp.should_not be_nil
+    end
+
+    it "can find contact by_name" do
+      fred = @nimble.contact.by_name 'Fred', 'Flintstone'
+      fred.fields['last name'][0]['value'].should eq 'Flintstone'
     end
 
     it "returns contact by id" do

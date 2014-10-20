@@ -6,8 +6,8 @@ require 'bundler/setup'
 Bundler.setup(:development)
 
 require "rspec"
+require "pry"
 require "nimble-api"
-
 RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = [:should, :expect]
