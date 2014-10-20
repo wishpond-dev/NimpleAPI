@@ -22,16 +22,19 @@ To use this wrapper, configure the NimbleApiApi with the following:
     
 If you plan to use this with rails, create config/initializers/nimble.rb with this contents. Reminder that you will need a set of all three ENV variables for each callback url that you plan to deploy, including localhost for testing.
 
-## Example
+## Usage
 
+    # Configure with your id, secret and refresh token for your application
     NimbleApi.configure do |c|
       c.client_id = ENV['CLIENT_ID']
       c.client_secret = ENV['CLIENT_SECRET']
       c.refresh_token = ENV['REFRESH_TOKEN']
     end
 
+    # Create a nimble object
     @nimble = NimbleApi()
 
+    # Create a person hash - email is required
     @person = {
       'first name' => 'Fred',
       'last name' => 'Flintstone',
@@ -39,16 +42,21 @@ If you plan to use this with rails, create config/initializers/nimble.rb with th
       'tags' => 'test'
     }
 
+    # Use the hash to create a contact and save it to your Nimble account
     fred = @nimble.contact.create @person
 
     fred.save
 
+    # Update one element, or multiple
     fred.update("parent company" => [{ "modifier"=>"","value"=>"Cogswell Cogs"}])
 
+    # Find a contact by their email address
     fred = @nimble.contact.by_email 'fred@bedrock.org'
 
+    # Find a contact by id
     fred = @nimble.contact.fetch "54444842faed29141e5c7300"
 
+    # Use convenience methods to display the id, email and fields
     > fred.id
     => "54444842faed29141e5c7300"
 
