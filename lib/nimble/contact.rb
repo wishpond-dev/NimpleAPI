@@ -58,6 +58,7 @@ module NimbleApi
       self
     end
 
+    # Searches contacts for matching email, sets self.contact to matching result
     def by_email email
       query = { "and" => [{ "email" => { "is"=> email } },{ "record type"=> { "is"=> "person" }} ] }
       resp = @nimble.get 'contacts', { :query => query.to_json }
@@ -66,6 +67,7 @@ module NimbleApi
       self
     end
 
+    # Gets contact by id and sets self.contact to result
     def fetch id=nil
       id ||= self.id
       resp = @nimble.get "contact/#{id}"
@@ -75,16 +77,19 @@ module NimbleApi
     end
     alias_method :get, :fetch
 
+    # Update with param 'fields' set to passed in param hash
     def update fields
       self.contact = @nimble.put "contact/#{self.id}", { fields: fields }
       return nil unless self.contact
       self
     end
 
+    # Returns notes for contact, based on params if provided
     def notes params=nil
       @nimble.get "contact/#{self.id}/notes", params
     end
 
+    # Adds note to contact. Preview set to 64 chars substring or can be provided
     def note note, preview=nil
       preview ||= note[0..64]
       params = {
@@ -95,15 +100,19 @@ module NimbleApi
       @nimble.post "contacts/notes", params
     end
 
+    # Delete not by id for self.contact
     def delete_note id
       @nimble.delete "contact/notes/#{id}"
     end
 
+    # Delete contact with id of self.contact, or by id as argument
     def delete id=nil
       id ||= self.id
       @nimble.delete "contact/#{id}"
     end
 
+    # Create new task for contac. due_date argument is parsed by Chronic and can be of
+    # format 'next week', 'tomorrow', 'Friday', 'Oct 10, 2014', etc.
     def task due_date, subject, notes=nil
       due = Chronic.parse(due_date).strftime('%Y-%m-%d %H:%M')
       params = {

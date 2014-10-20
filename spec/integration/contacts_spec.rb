@@ -9,6 +9,18 @@ describe NimbleApi::Contacts do
       c.refresh_token = REFRESH_TOKEN
     end
     @nimble = NimbleApi()
+    @fred = @nimble.contact.by_email 'fred@bedrock.org'
+    unless @fred
+      @person = {
+        'first name' => 'Fred',
+        'last name' => 'Flintstone',
+        'email' => 'fred@bedrock.org',
+        'tags' => 'test'
+      }
+      @fred = @nimble.contact.create @person
+      @fred.save
+    end
+
   end
 
   describe "list" do
@@ -33,8 +45,8 @@ describe NimbleApi::Contacts do
     end
 
     it "supports keyword param" do
-      resp = @nimble.contacts.list(keyword: 'winnie')
-      resp['resources'][0]['fields']['first name'][0]['value'].should eq 'winnie'
+      resp = @nimble.contacts.list(keyword: 'Fred')
+      resp['resources'][0]['fields']['first name'][0]['value'].should eq 'Fred'
     end
   end
 

@@ -12,7 +12,7 @@ References:
 
 The nimble api uses oauth for authorization. As such, you are required to obtain a client secret, token and registered callback url for each domain (including your localhost for testing) before starting to use this wrapper. Once you have obtained these keys, you will need to generate a refresh token. This allows you to access the API without needing to do the oauth dance to recreate your api client each time.
 
-To use this wrapper, configure the NimbleApiApi with the following:
+To use this wrapper, configure the NimbleApi with the following:
 
     NimbleApi.configure do |c|
       c.client_id = ENV['CLIENT_ID']
@@ -24,11 +24,13 @@ If you plan to use this with rails, create config/initializers/nimble.rb with th
 
 ## Usage
 
+    > require 'nimble-api'
+
     # Configure with your id, secret and refresh token for your application
     NimbleApi.configure do |c|
-      c.client_id = ENV['CLIENT_ID']
-      c.client_secret = ENV['CLIENT_SECRET']
-      c.refresh_token = ENV['REFRESH_TOKEN']
+      c.client_id = ENV['NIMBLE_CLIENT_ID']
+      c.client_secret = ENV['NIMBLE_CLIENT_SECRET']
+      c.refresh_token = ENV['NIMBLE_REFRESH_TOKEN']
     end
 
     # Create a nimble object
@@ -46,6 +48,10 @@ If you plan to use this with rails, create config/initializers/nimble.rb with th
     fred = @nimble.contact.create @person
 
     fred.save
+
+    # Attempt to save duplicate person throws error - checking is based on first email value
+    > fred.save
+    RuntimeError: fred@bedrock.org already exists!
 
     # Update one element, or multiple
     fred.update("parent company" => [{ "modifier"=>"","value"=>"Cogswell Cogs"}])
@@ -80,13 +86,13 @@ If you plan to use this with rails, create config/initializers/nimble.rb with th
     > @nimble.contacts.list
     => {"meta"=>{"per_page"=>30, "total"=>238, "pages"=>8, "page"=>1}, "resources"=>[...]
 
-    >@nimble.contacts.list(fields: ['first name', 'last name', 'email'])
+    > @nimble.contacts.list(fields: ['first name', 'last name', 'email'])
     => ... limited to just these fields
 
-    >@nimble.contacts.list(keyword: 'fred')
+    > @nimble.contacts.list(keyword: 'fred')
     => {"meta"=>{"per_page"=>30, "total"=>1, "pages"=>1, "page"=>1}, "resources"=>[ ... just one ... ]
     
-    >@nimble.contacts.list_ids( per_page:100, page: 2 )
+    > @nimble.contacts.list_ids( per_page:100, page: 2 )
     => {"meta"=>{"per_page"=>100, "total"=>396, "pages"=>4, "page"=>2}, "resources"=>[ ... 100 resources ... ]
 
 ## Contacts
