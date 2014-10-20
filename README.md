@@ -85,6 +85,9 @@ If you plan to use this with rails, create config/initializers/nimble.rb with th
 
     >@nimble.contacts.list(keyword: 'fred')
     => {"meta"=>{"per_page"=>30, "total"=>1, "pages"=>1, "page"=>1}, "resources"=>[ ... just one ... ]
+    
+    >@nimble.contacts.list_ids( per_page:100, page: 2 )
+    => {"meta"=>{"per_page"=>100, "total"=>396, "pages"=>4, "page"=>2}, "resources"=>[ ... 100 resources ... ]
 
 ## Contacts
 
