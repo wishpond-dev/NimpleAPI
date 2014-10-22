@@ -6,6 +6,7 @@ require "nimble/version"
 require 'nimble/base'
 require 'nimble/contacts'
 require 'nimble/contact'
+require 'nimble/metadata'
 
 def NimbleApi(options={})
   options[:client_id] = NimbleApi.client_id if NimbleApi.client_id

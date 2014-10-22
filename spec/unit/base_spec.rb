@@ -13,19 +13,32 @@ describe NimbleApi::Base do
 
   it "can be called directly if the keys have been set via NimbleApi.configure" do
     NimbleApi.configure do |config|
-      config.client_id = "qwer"
-      config.client_secret = "1234"
-      config.refresh_token = "qwer-1234"
+      config.client_id = CLIENT_ID
+      config.client_secret = CLIENT_SECRET
+      config.refresh_token = REFRESH_TOKEN
     end
     expect do
       NimbleApi()
     end.to_not raise_error
   end
 
-  it "can be instanced with the keys as a param" do
-    expect do
-      NimbleApi({ :client_id => "qwer", :client_secret => "1234", :refresh_token =>"qwer-1234" })
-    end.to_not raise_error
+  describe "when NimbleApi has not been configured" do
+
+    before(:each) do
+      NimbleApi.client_id = nil
+    end
+
+    it "can be instanced with the keys as a param" do
+      expect do
+        NimbleApi({ :client_id => CLIENT_ID, :client_secret => CLIENT_SECRET, :refresh_token => REFRESH_TOKEN })
+      end.to_not raise_error
+    end
+
+    it "raises error when instanced with incorrect keys" do
+      expect do
+        NimbleApi({ :client_id => "qwer", :client_secret => "1234", :refresh_token => "qwer-1234" })
+      end.to raise_error
+    end
   end
 
 

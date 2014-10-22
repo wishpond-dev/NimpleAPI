@@ -30,8 +30,12 @@ module NimbleApi
         redirect_uri: NimbleApi.callback_path
       }
       resp = @conn.post '/oauth/token', params
+      if resp.status >= 400
+        raise resp.body
+      end
       access_token = (JSON resp.body)['access_token']
       @conn.headers = { 'Authorization' => "Bearer #{access_token}" }
+      @conn
     end
 
     def get endpoint, params={}
@@ -72,6 +76,10 @@ module NimbleApi
 
     def contact
       NimbleApi::Contact.new(self)
+    end
+
+    def metadata
+      NimbleApi::Metadata.new(self)
     end
 
   end
