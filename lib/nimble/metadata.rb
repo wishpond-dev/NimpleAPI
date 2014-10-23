@@ -10,6 +10,13 @@ module NimbleApi
       @nimble.get "contacts/metadata"
     end
 
+    def groups
+      metadata = @nimble.get "contacts/metadata"
+      groups = Hash.new
+      metadata['groups'].keys.each {|g| groups[g] = metadata['groups'][g]['id']}
+      groups
+    end
+
     def add_group params
       @nimble.post 'contacts/metadata/groups', params
     end

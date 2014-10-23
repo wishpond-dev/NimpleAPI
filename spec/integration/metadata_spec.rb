@@ -28,9 +28,8 @@ describe NimbleApi::Metadata do
   end
 
   it "can create a custom group" do
-    resp = @nimble.metadata.add_group('type'=>'person','name'=>'taskit')
-    resp.should_not be_empty
-    # {"is_standard"=>false, "name"=>"taskit", "order"=>[], "type"=>"person", "id"=>"5447ee6dfaed29363fb17605", "label"=>"taskit"}
+    resp = @nimble.metadata.add_group('type'=>'person','name'=>'testing')
+    resp['id'].should_not be_nil
   end
 
   it "can add a custom field to the group" do
@@ -43,6 +42,12 @@ describe NimbleApi::Metadata do
     #    "id"=>"5447efa0ae31563ca75a4db1",
     #    "multiples"=>false,
     #    "label"=>"projects"}
+  end
+
+  it "can apply a value to the custom field" do
+    @fred.update("projects" => [{ "modifier"=>"","value"=>"Thursday project"}])
+    @fred.fetch
+    @fred.fields['projects'][0]['value'].should eq 'Thursday project'
   end
 
 end
