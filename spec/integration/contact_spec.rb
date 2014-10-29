@@ -111,7 +111,7 @@ describe NimbleApi::Contact do
       timestamp = Time.now
       @fred.note "This note sent at #{timestamp}"
       notes = @fred.notes
-      id = notes['resources'].first['note']['id']
+      id = notes['resources'].first['id']
       resp = @fred.delete_note id
       resp['id'].should eq id
     end
