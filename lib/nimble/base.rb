@@ -13,7 +13,7 @@ module NimbleApi
       @conn = Faraday.new(:url => "https://#{NimbleApi.host}" ) do |faraday|
         faraday.request  :url_encoded             # form-encode POST params
         faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
-        faraday.use Faraday::Response::RaiseError       # raise exceptions on 40x, 50x responses
+        # faraday.use Faraday::Response::RaiseError       # raise exceptions on 40x, 50x responses
       end
       self.refresh
     end
@@ -59,8 +59,9 @@ module NimbleApi
       return JSON resp.body
     end
 
-    def delete endpoint
-      resp = @conn.delete "#{base_url}/#{endpoint}"
+    def delete endpoint, params
+      resp = @conn.delete "#{base_url}/#{endpoint}", params
+      binding.pry
       return JSON resp.body
     end
 

@@ -20,6 +20,7 @@ describe NimbleApi::Metadata do
       @fred = @nimble.contact.create @person
       @fred.save
     end
+
   end
 
   it "should retrieve all metadata" do
@@ -28,12 +29,20 @@ describe NimbleApi::Metadata do
   end
 
   it "can create a custom group" do
+    # Remove testing group
+    groups = @nimble.metadata.all['groups']
+    if id = groups['testing']['id']
+      @nimble.delete("contacts/metadata/groups/#{id}", {'id' => id, 'force' => true})
+    end
     resp = @nimble.metadata.add_group('type'=>'person','name'=>'testing')
     resp['id'].should_not be_nil
   end
 
   it "can add a custom field to the group" do
-    resp = @nimble.metadata.add_field('group_id' => "5447ee6dfaed29363fb17605", 'name' => 'projects', 'presentation' =>{'width' => '1', 'type' => 'single-line-text-box'})
+    groups = @nimble.metadata.all['groups']
+    id = groups['testing']['id']
+
+    resp = @nimble.metadata.add_field('group_id' => id, 'name' => 'projects', 'presentation' =>{'width' => '1', 'type' => 'single-line-text-box'})
     resp.should_not be_empty
     # => {"group"=>"taskit",
     #    "name"=>"projects",
