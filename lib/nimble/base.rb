@@ -13,6 +13,7 @@ module NimbleApi
       @conn = Faraday.new(:url => "https://#{NimbleApi.host}" ) do |faraday|
         faraday.request  :url_encoded             # form-encode POST params
         faraday.adapter  Faraday.default_adapter  # make requests with Net::HTTP
+        faraday.use Faraday::Response::RaiseError       # raise exceptions on 40x, 50x responses
       end
       self.refresh
     end
@@ -30,9 +31,6 @@ module NimbleApi
         redirect_uri: NimbleApi.callback_path
       }
       resp = @conn.post '/oauth/token', params
-      if resp.status >= 400
-        raise resp.body
-      end
       access_token = (JSON resp.body)['access_token']
       @conn.headers = { 'Authorization' => "Bearer #{access_token}" }
       @conn
@@ -40,7 +38,6 @@ module NimbleApi
 
     def get endpoint, params={}
       resp = @conn.get "#{base_url}/#{endpoint}", params
-      raise NimbleApi::Error.new(resp) if resp.status >= 400
       return JSON resp.body
     end
 
@@ -50,7 +47,6 @@ module NimbleApi
         req.headers['Content-Type'] = 'application/json'
         req.body = params.to_json
       end
-      raise NimbleApi::Error.new(resp) if resp.status >= 400
       return JSON resp.body
     end
 
@@ -60,13 +56,11 @@ module NimbleApi
         req.headers['Content-Type'] = 'application/json'
         req.body = params.to_json
       end
-      raise NimbleApi::Error.new(resp) if resp.status >= 400
       return JSON resp.body
     end
 
     def delete endpoint
       resp = @conn.delete "#{base_url}/#{endpoint}"
-      raise NimbleApi::Error.new(resp) if resp.status >= 400
       return JSON resp.body
     end
 
