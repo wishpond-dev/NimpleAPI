@@ -40,7 +40,7 @@ module NimbleApi
 
     def get endpoint, params={}
       resp = @conn.get "#{base_url}/#{endpoint}", params
-      raise NimbleApi::Error.new(resp) if resp['errors']
+      raise NimbleApi::Error.new(resp) if resp.status >= 400
       return JSON resp.body
     end
 
@@ -50,7 +50,7 @@ module NimbleApi
         req.headers['Content-Type'] = 'application/json'
         req.body = params.to_json
       end
-      raise NimbleApi::Error.new(resp) if resp['errors']
+      raise NimbleApi::Error.new(resp) if resp.status >= 400
       return JSON resp.body
     end
 
@@ -60,13 +60,13 @@ module NimbleApi
         req.headers['Content-Type'] = 'application/json'
         req.body = params.to_json
       end
-      raise NimbleApi::Error.new(resp) if resp['errors']
+      raise NimbleApi::Error.new(resp) if resp.status >= 400
       return JSON resp.body
     end
 
     def delete endpoint
       resp = @conn.delete "#{base_url}/#{endpoint}"
-      raise NimbleApi::Error.new(resp) if resp['errors']
+      raise NimbleApi::Error.new(resp) if resp.status >= 400
       return JSON resp.body
     end
 

@@ -127,7 +127,10 @@ Save the contact, results will populate @contact within the object
     fred.contact['fields'] # accesses returned field values
 
 ### by_email
-Find a contact by email address
+Find a contact by email address. Note that this will be the best way to locate unique contacts
+
+### by_name
+Find a contact by first and last name. Be careful John Smith!
 
 ### fetch, alias: get
 Find a contact by id. Can also be called from an instance in order to refresh the contact data
