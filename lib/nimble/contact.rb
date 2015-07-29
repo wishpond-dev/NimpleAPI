@@ -10,9 +10,6 @@ module NimbleApi
     def create params
       # email is used as unique id
       @email = params['email']
-      if params['address']
-        address = {"city" => params['address'], "street" => "", "zip" => "", "country" => ""}.to_json
-      end
       @person = {
         "fields" => {
           "first name" => [{"value" => params['first name'],"modifier" => ""}],
@@ -23,7 +20,7 @@ module NimbleApi
           "email" => [{"modifier"=>"work", "value"=>params['email']}],
           "lead status" => [{"modifier"=>"", "value"=>"Not Qualified"}],
           "title" => [{"modifier" => "", "value" => params['headline']}],
-          "address" => [ { "modifier" => "work","value" => address }]
+          "address" => [ { "modifier" => "work","value" => params['address']}]
           },
           "tags" => [params['tags']],
           "record_type" => "person"
