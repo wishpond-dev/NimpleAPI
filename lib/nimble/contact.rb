@@ -14,6 +14,7 @@ module NimbleApi
         "fields" => {
           "first name" => [{"value" => params['first name'],"modifier" => ""}],
           "last name" => [{ "value"=> params['last name'],"modifier" => ""}],
+          "Gender"=>[{"modifier"=>"", "value" => params["Gender"]}],
           "parent company" => [{ "modifier"=>"","value"=>params['company']}],
           "linkedin" => [{"modifier"=>"",  "value"=>params['linkedin']}],
           "URL" => [{ "modifier"=>"other", "value"=>params['website']}],
