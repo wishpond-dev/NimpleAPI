@@ -1,7 +1,7 @@
 NimbleApi
 =========
 
-Ruby wrapper for the nimble api. The wrapper provides classes for Contacts and Contact.
+NimbleApi is a Ruby wrapper for the Nimble API. The wrapper provides an interface to interact with Contacts and Contact.
 
 References:
   * http://nimble.readthedocs.org/en/latest/
@@ -10,9 +10,9 @@ References:
 
 ## Configuration
 
-The nimble api uses oauth for authorization. As such, you are required to obtain a client secret, token and registered callback url for each domain (including your localhost for testing) before starting to use this wrapper. Once you have obtained these keys, you will need to generate a refresh token. This allows you to access the API without needing to do the oauth dance to recreate your api client each time.
+The nimble api uses oauth for authorization. You are required to obtain a client secret, token and registered callback url for each domain (including your localhost for testing) before starting to use this wrapper. Once you have obtained these keys, you will need to generate a refresh token. This allows you to access the API without going through the entire oauth flow to recreate your API client.
 
-To use this wrapper, configure the NimbleApi with the following:
+Configure the NimbleApi with the following:
 
     NimbleApi.configure do |c|
       c.client_id = ENV['CLIENT_ID']
@@ -20,7 +20,7 @@ To use this wrapper, configure the NimbleApi with the following:
       c.refresh_token = ENV['REFRESH_TOKEN']
     end
     
-If you plan to use this with rails, create config/initializers/nimble.rb with this contents. Reminder that you will need a set of all three ENV variables for each callback url that you plan to deploy, including localhost for testing.
+If you are using rails, create config/initializers/nimble.rb with this contents. You will need a set of all three ENV variables for each callback url that you deploy, including localhost for testing.
 
 ## Usage
 
